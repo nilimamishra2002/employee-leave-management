@@ -16,7 +16,7 @@ connectDB();
 // middleware
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://employee-leave-management-dashboard.onrender.com",
   credentials: true
 }));
 
