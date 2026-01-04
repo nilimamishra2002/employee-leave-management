@@ -33,6 +33,13 @@ function ManagerDashboard() {
     fetchPendingLeaves();
   };
 
+  const calculateDays = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = endDate - startDate;
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+  };
+
   return (
     <div className="container mt-4" style={{ maxWidth: "900px" }}>
       <Navbar />
@@ -108,16 +115,30 @@ function ManagerDashboard() {
           {approvedLeaves.map((leave) => (
             <div key={leave._id} className="col-md-12 mb-2">
               <div className="card border-light">
-                <div className="card-body py-2">
-                  <strong>{leave.employee.name}</strong> | {leave.leaveType} |{" "}
-                  {leave.startDate.slice(0, 10)} → {leave.endDate.slice(0, 10)}
-                  {leave.managerComment && (
-                    <div className="text-muted mt-1">
-                      <small>
-                        <strong>Comment:</strong> {leave.managerComment}
-                      </small>
-                    </div>
-                  )}
+                <div className="card-body py-2 d-flex justify-content-between align-items-center">
+                  {/* LEFT SIDE */}
+                  <div>
+                    <strong>{leave.employee.name}</strong> | {leave.leaveType}{" "}
+                    <br />
+                    <small className="text-muted">
+                      {leave.startDate.slice(0, 10)} →{" "}
+                      {leave.endDate.slice(0, 10)}
+                    </small>
+                    {leave.managerComment && (
+                      <div className="text-muted mt-1">
+                        <small>
+                          <strong>Comment:</strong> {leave.managerComment}
+                        </small>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* RIGHT SIDE */}
+                  <div className="text-end">
+                    <span className="badge bg-primary fs-6">
+                      {calculateDays(leave.startDate, leave.endDate)} day(s)
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
