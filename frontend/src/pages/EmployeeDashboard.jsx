@@ -99,7 +99,7 @@ function EmployeeDashboard() {
                 <p className="mb-1">
                   Used: {TOTAL_LEAVES.sick - balance.sick} days
                 </p>
-                <p className="fw-bold">Remaining: {balance.sick} days</p>
+                <p className="fw-bold text-success">Remaining: {balance.sick} days</p>
               </div>
             </div>
           )}
