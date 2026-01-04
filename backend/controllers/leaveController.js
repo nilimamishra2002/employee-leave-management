@@ -61,7 +61,9 @@ exports.getPendingLeaves = async (req, res) => {
  */
 exports.approveLeave = async (req, res) => {
   try {
-    const leave = await LeaveRequest.findById(req.params.id).populate("employee");
+    const leave = await LeaveRequest
+      .findById(req.params.id)
+      .populate("employee");
 
     if (!leave) {
       return res.status(404).json({ message: "Leave request not found" });
@@ -71,33 +73,48 @@ exports.approveLeave = async (req, res) => {
       return res.status(400).json({ message: "Leave already processed" });
     }
 
-    // calculate number of leave days
+    const user = leave.employee;
+
+    if (!user || !user.leaveBalance) {
+      return res.status(500).json({ message: "Employee data missing" });
+    }
+
     const start = new Date(leave.startDate);
     const end = new Date(leave.endDate);
+
     const days =
       Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
 
-    const user = leave.employee;
+    const balance = user.leaveBalance[leave.leaveType];
 
-    // check leave balance
-    if (user.leaveBalance[leave.leaveType] < days) {
-      return res.status(400).json({ message: "Insufficient leave balance" });
+    if (balance === undefined) {
+      return res.status(400).json({
+        message: "Invalid leave type"
+      });
+    }
+
+    if (balance < days) {
+      return res.status(400).json({
+        message: "Insufficient leave balance"
+      });
     }
 
     // deduct balance
     user.leaveBalance[leave.leaveType] -= days;
     await user.save();
 
-    // update leave status
     leave.status = "approved";
-    leave.managerComment = req.body.comment || "";
+    leave.managerComment = req.body?.comment || "";
     await leave.save();
 
     res.json({ message: "Leave approved successfully" });
+
   } catch (err) {
+    console.error("Approve error:", err);
     res.status(500).json({ message: "Error approving leave" });
   }
 };
+
 
 /**
  * Manager rejects leave
@@ -115,11 +132,13 @@ exports.rejectLeave = async (req, res) => {
     }
 
     leave.status = "rejected";
-    leave.managerComment = req.body.comment || "";
+    leave.managerComment = req.body?.comment || "";
     await leave.save();
 
     res.json({ message: "Leave rejected successfully" });
   } catch (err) {
+    console.error(err); //  IMPORTANT for debugging
     res.status(500).json({ message: "Error rejecting leave" });
   }
 };
+

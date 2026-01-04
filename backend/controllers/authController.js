@@ -27,12 +27,17 @@ exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
-      name,
-      email,
-      password: hashedPassword,
-      role
-    });
+const user = new User({
+  name,
+  email,
+  password: hashedPassword,
+  role,
+  leaveBalance: {
+    vacation: 36,
+    sick: 12
+  }
+});
+
 
     await user.save();
 
@@ -47,8 +52,28 @@ exports.register = async (req, res) => {
 };
 
 
+
 exports.logout = (req, res) => {
   req.logout(() => {
-    res.json({ message: "Logged out successfully" });
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid"); 
+      res.json({ message: "Logged out" });
+    });
   });
 };
+
+exports.me = (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  res.json({
+    id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    role: req.user.role,
+    leaveBalance: req.user.leaveBalance
+  });
+};
+
+

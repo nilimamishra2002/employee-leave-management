@@ -24,8 +24,8 @@ const userSchema = new mongoose.Schema({
   },
 
   leaveBalance: {
-    vacation: { type: Number, default: 10 },
-    sick: { type: Number, default: 5 }
+    vacation: { type: Number, default: 36 },
+    sick: { type: Number, default: 12 }
   }
 });
 
