@@ -20,13 +20,20 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(
-  session({
-    secret: "leave-secret",
-    resave: false,
-    saveUninitialized: false
-  })
-);
+app.set("trust proxy", 1);
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,          
+    sameSite: "none",      
+    httpOnly: true
+  }
+}));
+
 
 // passport config
 require("./config/passport")(passport);
