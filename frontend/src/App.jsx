@@ -16,6 +16,8 @@ function App() {
       {/* Dashboards */}
       <Route path="/employee" element={<EmployeeDashboard />} />
       <Route path="/manager" element={<ManagerDashboard />} />
+
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

@@ -6,7 +6,7 @@ function Navbar() {
 
   const logout = async () => {
   await api.post("/auth/logout");
-  window.location.href = "/login"; 
+  window.location.href = "/"; 
 };
 
 
