@@ -62,62 +62,82 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="auth-container">
-      <h2>{isLogin ? "Login" : "Register"}</h2>
+  <div className="auth-container">
+    <h3 className="text-center mb-4">
+      {isLogin ? "Login" : "Register"}
+    </h3>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    {error && (
+      <div className="alert alert-danger py-2">
+        {error}
+      </div>
+    )}
 
-      <form onSubmit={handleSubmit}>
-        {!isLogin && (
-          <>
-            <label>Name</label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </>
-        )}
+    <form onSubmit={handleSubmit}>
+      {!isLogin && (
+        <div className="mb-3">
+          <label className="form-label">Name</label>
+          <input
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+      )}
 
-        <label>Email</label>
+      <div className="mb-3">
+        <label className="form-label">Email</label>
         <input
           type="email"
+          className="form-control"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+      </div>
 
-        <label>Password</label>
+      <div className="mb-3">
+        <label className="form-label">Password</label>
         <input
           type="password"
+          className="form-control"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+      </div>
 
-        {!isLogin && (
-          <>
-            <label>Role</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="employee">Employee</option>
-              <option value="manager">Manager</option>
-            </select>
-          </>
-        )}
+      {!isLogin && (
+        <div className="mb-3">
+          <label className="form-label">Role</label>
+          <select
+            className="form-select"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="employee">Employee</option>
+            <option value="manager">Manager</option>
+          </select>
+        </div>
+      )}
 
-        <button type="submit">
-          {isLogin ? "Login" : "Register"}
-        </button>
-      </form>
+      <button type="submit" className="btn btn-primary w-100">
+        {isLogin ? "Login" : "Register"}
+      </button>
+    </form>
 
-      <p>
-        {isLogin ? "New user?" : "Already have an account?"}{" "}
-        <span className="link" onClick={toggleMode}>
-          {isLogin ? "Register" : "Login"}
-        </span>
-      </p>
-    </div>
-  );
+    <p className="text-center mt-3 mb-0">
+      {isLogin ? "New user?" : "Already have an account?"}{" "}
+      <span
+        className="link"
+        onClick={toggleMode}
+      >
+        {isLogin ? "Register" : "Login"}
+      </span>
+    </p>
+  </div>
+);
 }
 
 export default Auth;

@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
 
-
-
-
 function ManagerDashboard() {
   const [leaves, setLeaves] = useState([]);
+  const [comment, setComment] = useState("");
 
   const fetchPendingLeaves = async () => {
     const res = await api.get("/leaves/pending");
@@ -18,45 +16,79 @@ function ManagerDashboard() {
   }, []);
 
   const approveLeave = async (id) => {
-    await api.put(`/leaves/${id}/approve`);
+    await api.put(`/leaves/${id}/approve`, { comment });
     fetchPendingLeaves();
   };
 
   const rejectLeave = async (id) => {
-    await api.put(`/leaves/${id}/reject`);
+    await api.put(`/leaves/${id}/reject`, { comment });
     fetchPendingLeaves();
   };
 
   return (
-    <div className="container" style={{ width: "700px" }}>
-        <Navbar />
-      <h2>Manager Dashboard</h2>
+    <div className="container mt-4" style={{ maxWidth: "900px" }}>
+      <Navbar />
 
-      {leaves.length === 0 && <p>No pending requests</p>}
+      <h2 className="mb-4">Manager Dashboard</h2>
 
-      <ul>
-        {leaves.map((leave) => (
-          <li key={leave._id} style={{ marginBottom: "15px" }}>
-            <strong>{leave.employee.name}</strong> |{" "}
-            {leave.leaveType} |{" "}
-            {leave.startDate.slice(0, 10)} →{" "}
-            {leave.endDate.slice(0, 10)}
+      {leaves.length === 0 ? (
+        <p>No pending leave requests.</p>
+      ) : (
+        <div className="row">
+          {leaves.map((leave) => (
+            <div key={leave._id} className="col-md-12 mb-3">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title mb-2">{leave.employee.name}</h5>
 
-            <br />
+                  <p className="mb-1">
+                    <strong>Type:</strong> {leave.leaveType}
+                  </p>
 
-            <button onClick={() => approveLeave(leave._id)}>
-              Approve
-            </button>
+                  <p className="mb-3">
+                    <strong>Duration:</strong> {leave.startDate.slice(0, 10)} →{" "}
+                    {leave.endDate.slice(0, 10)}
+                  </p>
+                  {/* LEAVE REASON */}
+                  {leave.reason && (
+                    <p className="mb-3">
+                      <strong>Reason:</strong>{" "}
+                      <span className="text-muted">{leave.reason}</span>
+                    </p>
+                  )}
 
-            <button
-              onClick={() => rejectLeave(leave._id)}
-              style={{ marginLeft: "10px" }}
-            >
-              Reject
-            </button>
-          </li>
-        ))}
-      </ul>
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Manager Comment (optional)
+                    </label>
+                    <textarea
+                      className="form-control"
+                      rows="2"
+                      placeholder="Add a comment if necessary"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                  </div>
+
+                  <button
+                    className="btn btn-success me-2"
+                    onClick={() => approveLeave(leave._id)}
+                  >
+                    Approve
+                  </button>
+
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => rejectLeave(leave._id)}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
