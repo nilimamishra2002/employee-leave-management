@@ -88,7 +88,9 @@ function EmployeeDashboard() {
                 <p className="mb-1">
                   Used: {TOTAL_LEAVES.vacation - balance.vacation} days
                 </p>
-                <p className="fw-bold">Remaining: {balance.vacation} days</p>
+                <p className="fw-bold text-success">
+                  Remaining: {balance.vacation} days
+                </p>
               </div>
 
               <div className="col-md-6">
@@ -176,7 +178,18 @@ function EmployeeDashboard() {
                 <li key={leave._id} className="list-group-item">
                   <strong>{leave.leaveType}</strong> |{" "}
                   {leave.startDate.slice(0, 10)} → {leave.endDate.slice(0, 10)}{" "}
-                  | <span className="text-muted">{leave.status}</span>
+                  |{" "}
+                  <span
+                    className={`badge ms-2 ${
+                      leave.status === "approved"
+                        ? "bg-success"
+                        : leave.status === "pending"
+                        ? "bg-warning text-dark"
+                        : "bg-danger"
+                    }`}
+                  >
+                    {leave.status}
+                  </span>
                   {leave.managerComment && (
                     <div className="mt-1 text-muted">
                       <strong>Manager Comment:</strong> {leave.managerComment}

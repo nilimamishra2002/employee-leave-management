@@ -7,6 +7,16 @@ function ManagerDashboard() {
   const [comment, setComment] = useState("");
   const [approvedLeaves, setApprovedLeaves] = useState([]);
 
+  const getLeaveStatus = (start, end) => {
+    const today = new Date();
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if (today < startDate) return "Upcoming";
+    if (today > endDate) return "Completed";
+    return "Ongoing";
+  };
+
   const fetchPendingLeaves = async () => {
     const res = await api.get("/leaves/pending");
     setLeaves(res.data);
@@ -135,8 +145,22 @@ function ManagerDashboard() {
 
                   {/* RIGHT SIDE */}
                   <div className="text-end">
-                    <span >
+                    <div className="fw-semibold">
                       {calculateDays(leave.startDate, leave.endDate)} day(s)
+                    </div>
+
+                    <span
+                      className={`badge mt-1 ${
+                        getLeaveStatus(leave.startDate, leave.endDate) ===
+                        "Ongoing"
+                          ? "bg-warning text-dark"
+                          : getLeaveStatus(leave.startDate, leave.endDate) ===
+                            "Upcoming"
+                          ? "bg-info"
+                          : "bg-success"
+                      }`}
+                    >
+                      {getLeaveStatus(leave.startDate, leave.endDate)}
                     </span>
                   </div>
                 </div>
