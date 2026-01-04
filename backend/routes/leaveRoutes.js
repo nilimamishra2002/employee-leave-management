@@ -4,7 +4,8 @@ const {
   getMyLeaves,
   getPendingLeaves,
   approveLeave,
-  rejectLeave
+  rejectLeave,
+  getApprovedLeaves
 } = require("../controllers/leaveController");
 
 const {
@@ -23,7 +24,7 @@ router.get("/my", isAuthenticated, getMyLeaves);
 /**
  * Manager routes
  */
-router.get("/pending", isAuthenticated, isManager, getPendingLeaves);
+router.get("/pending", isAuthenticated, isManager, getPendingLeaves, getApprovedLeaves);
 router.put("/:id/approve", isAuthenticated, isManager, approveLeave);
 router.put("/:id/reject", isAuthenticated, isManager, rejectLeave);
 

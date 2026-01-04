@@ -5,19 +5,27 @@ import Navbar from "../components/Navbar";
 function ManagerDashboard() {
   const [leaves, setLeaves] = useState([]);
   const [comment, setComment] = useState("");
+  const [approvedLeaves, setApprovedLeaves] = useState([]);
 
   const fetchPendingLeaves = async () => {
     const res = await api.get("/leaves/pending");
     setLeaves(res.data);
   };
 
+  const fetchApprovedLeaves = async () => {
+    const res = await api.get("/leaves/approved");
+    setApprovedLeaves(res.data);
+  };
+
   useEffect(() => {
     fetchPendingLeaves();
+    fetchApprovedLeaves();
   }, []);
 
   const approveLeave = async (id) => {
     await api.put(`/leaves/${id}/approve`, { comment });
     fetchPendingLeaves();
+    fetchApprovedLeaves();
   };
 
   const rejectLeave = async (id) => {
@@ -83,6 +91,33 @@ function ManagerDashboard() {
                   >
                     Reject
                   </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <hr />
+
+      <h3 className="mb-3">Approved Leaves (Tracking)</h3>
+
+      {approvedLeaves.length === 0 ? (
+        <p>No approved leaves yet.</p>
+      ) : (
+        <div className="row">
+          {approvedLeaves.map((leave) => (
+            <div key={leave._id} className="col-md-12 mb-2">
+              <div className="card border-light">
+                <div className="card-body py-2">
+                  <strong>{leave.employee.name}</strong> | {leave.leaveType} |{" "}
+                  {leave.startDate.slice(0, 10)} → {leave.endDate.slice(0, 10)}
+                  {leave.managerComment && (
+                    <div className="text-muted mt-1">
+                      <small>
+                        <strong>Comment:</strong> {leave.managerComment}
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

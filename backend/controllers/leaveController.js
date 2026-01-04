@@ -142,3 +142,17 @@ exports.rejectLeave = async (req, res) => {
   }
 };
 
+
+// Manager views all approved leaves
+exports.getApprovedLeaves = async (req, res) => {
+  try {
+    const leaves = await LeaveRequest.find({ status: "approved" })
+      .populate("employee", "name email");
+
+    res.json(leaves);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching approved leaves" });
+  }
+};
+
+
