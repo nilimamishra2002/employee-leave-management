@@ -24,7 +24,9 @@ router.get("/my", isAuthenticated, getMyLeaves);
 /**
  * Manager routes
  */
-router.get("/pending", isAuthenticated, isManager, getPendingLeaves, getApprovedLeaves);
+router.get("/pending", isAuthenticated, isManager, getPendingLeaves);
+router.get("/approved", isManager, leaveController.getApprovedLeaves);
+
 router.put("/:id/approve", isAuthenticated, isManager, approveLeave);
 router.put("/:id/reject", isAuthenticated, isManager, rejectLeave);
 
