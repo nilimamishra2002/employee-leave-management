@@ -135,7 +135,7 @@ function ManagerDashboard() {
 
                   {/* RIGHT SIDE */}
                   <div className="text-end">
-                    <span className="badge bg-primary fs-6">
+                    <span >
                       {calculateDays(leave.startDate, leave.endDate)} day(s)
                     </span>
                   </div>
