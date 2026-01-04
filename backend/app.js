@@ -16,11 +16,11 @@ connectDB();
 
 // middleware
 app.use(express.json());
-// app.use(cors({
-//   origin: "https://employee-leave-management-dashboard.onrender.com",
-//   credentials: true
-// }));
-app.use(cors());
+app.use(cors({
+  origin: "https://employee-leave-management-0yia.onrender.com",
+  credentials: true
+}));
+
 
 
 app.set("trust proxy", 1);
@@ -48,9 +48,9 @@ app.use(passport.session());
 app.use("/api/auth", authRoutes);
 app.use("/api/leaves", leaveRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Employee Leave Management API");
-});
+// app.get("/", (req, res) => {
+//   res.send("Employee Leave Management API");
+// });
 
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
