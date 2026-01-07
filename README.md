@@ -2,66 +2,66 @@ Employee Leave Management System
 
 A full-stack web application to manage employee leave requests, approvals, and leave balances with role-based access for employees and managers.
 
-✨ Features
+✨ Features:
 
-Secure authentication (Employee & Manager roles)
+->Secure authentication (Employee & Manager roles)
 
-Apply for leave (Vacation / Sick)
+->Apply for leave (Vacation / Sick)
 
-Manager approval & rejection with comments
+->Manager approval & rejection with comments
 
-Automatic leave balance tracking
+->Automatic leave balance tracking
 
-Employee & Manager dashboards
+->Employee & Manager dashboards
 
-Approved leave tracking across organization
+->Approved leave tracking across organization
 
-👥 Roles
-Employee
+👥 Roles:
+Employee:
 
-Apply for leave
+->Apply for leave
 
-View leave history
+-?View leave history
 
-Track yearly leave balance
+->Track yearly leave balance
 
-View approved leave calendar
+->View approved leave calendar
 
-Manager
+Manager:
 
-View pending leave requests
+->View pending leave requests
 
-Approve / Reject requests
+->Approve / Reject requests
 
-Add optional comments
+->Add optional comments
 
-Track approved leaves of all employees
+->Track approved leaves of all employees
 
-🛠 Tech Stack
+🛠 Tech Stack:
 
-Frontend
+Frontend:
 
-React (Vite)
+->React (Vite)
 
-Bootstrap
+->Bootstrap
 
-Axios
+->Axios
 
-Backend
+->Backend
 
-Node.js
+->Node.js
 
-Express.js
+->Express.js
 
-Passport.js (Session-based auth)
+->Passport.js (Session-based auth)
 
-Database
+->Database
 
-MongoDB Atlas
+  -MongoDB Atlas
 
-Deployment
+->Deployment
 
-Render
+  -Render
 
 🧱 Architecture
 React (Frontend) -> Express REST APIs -> MongoDB Atlas
