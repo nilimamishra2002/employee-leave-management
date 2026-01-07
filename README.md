@@ -21,7 +21,7 @@ Employee:
 
 ->Apply for leave
 
--?View leave history
+->View leave history
 
 ->Track yearly leave balance
 
