@@ -64,11 +64,7 @@ Deployment
 Render
 
 🧱 Architecture
-React (Frontend)
-   ↓
-Express REST APIs
-   ↓
-MongoDB Atlas
+React (Frontend) -> Express REST APIs -> MongoDB Atlas
 
 ⚙️ Setup (Local)
 git clone https://github.com/your-username/employee-leave-management.git
